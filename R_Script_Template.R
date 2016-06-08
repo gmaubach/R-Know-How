@@ -2,13 +2,12 @@
 # Program       : Framework for R scripts
 # Author        : Georg Maubach
 # Date          : 2016-03-03
-# Update        : 2016-05-23
+# Update        : 2016-05-31
 # Description   : Foundation for the analysis process
 # Source System : R 3.2.5 (64 Bit)
 # Target System : R 3.2.5 (64 Bit)
 # Release       : 1
-# License       : CC-BY-NC-SA
-# File Name     : 2016-05-10-001_Template_Scipt.R
+# File Name     : 2016-05-31-001_Template_Scipt.R
 #-------------------------------------------------------------------------------
 
 #- [ Purpose of the document ] ------------------------------------------------
@@ -29,6 +28,7 @@
 # - [ Editing Marks ] ----------------------------------------------------------
 # %ROTA% : Result of the analysis in text form if needed to explain further
 #          steps
+# %ANDE% : Analyst Decision
 # %ToDo% : ToDo's
 #-------------------------------------------------------------------------------
 
