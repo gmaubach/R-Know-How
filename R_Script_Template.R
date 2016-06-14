@@ -2,12 +2,12 @@
 # Program       : Framework for R scripts
 # Author        : Georg Maubach
 # Date          : 2016-03-03
-# Update        : 2016-05-31
+# Update        : 2016-06-14
 # Description   : Foundation for the analysis process
 # Source System : R 3.2.5 (64 Bit)
 # Target System : R 3.2.5 (64 Bit)
 # Release       : 1
-# File Name     : 2016-05-31-001_Template_Scipt.R
+# File Name     : R_Script_Template.R
 #-------------------------------------------------------------------------------
 
 #- [ Purpose of the document ] ------------------------------------------------
@@ -650,7 +650,7 @@ names(dataset)[names(dataset) == "old_variable_name"] <- "new_variable_name"
 # Rename a single variable using reshape2::rename (see (*15))
 library("reshape2")
 dataset <- rename(dataset, c(old_varname_1 = "new_varname_1",
-  old_varname_2 = "new_varname2")
+  old_varname_2 = "new_varname2"))
 detach(package = "reshape2")
 
 # Recode 1: Manually
@@ -664,6 +664,11 @@ dataset$recoded <- factor(dataset$recoded,
                           levels = c(1, 2, 3, 4),
                           labels = c("Pupils", "Young Professionals",
                                      "Professionals", "Retired"))
+
+# Recode 2: Manually
+# Recode the value of a single case and assign a new value to a selected
+# variable
+dataset[dataset["varname_1"] == "9999", "varname_2"] <- 0
 
 # Filter out cases (see (*15) and (*16))
 # Never use subset cause use is not save (see (*17))
