@@ -2,7 +2,7 @@
 # Program       : Framework for R scripts
 # Author        : Georg Maubach
 # Date          : 2016-03-03
-# Update        : 2016-06-14
+# Update        : 2016-06-27
 # Description   : Foundation for the analysis process
 # Source System : R 3.2.5 (64 Bit)
 # Target System : R 3.2.5 (64 Bit)
@@ -549,6 +549,58 @@ variable[is.na(x)] = -999                 # Recode all NA in x as -999
 variable[variable %in% c(-998,-999)] = NA # Recode any -998 or -999 as NA
 variable[variable %in% -990:-999] = 0     # Recode any value between -990 and
 # -999 as 0
+
+##### Select cases if variables have missing values
+##### Credits:
+##### - https://www.mail-archive.com/r-help@r-project.org/msg236476.html
+cust.id <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+             13, 14, 15, 16, 17, 18, 19, 20)
+
+closed.mdm <- c("01", NA, NA, NA, "08", "07", NA, NA, "05",
+                NA, NA, NA, "04", NA, NA, NA, NA, NA, NA, NA)
+
+closed.sls <- c(NA, "08", NA, NA, "08", "07", NA, NA, NA, NA,
+                "03", NA, NA, NA, "05", NA, NA, NA, NA, NA)
+
+df <- data.frame(cust.id, closed.mdm, closed.sls,
+                 stringsAsFactors=FALSE)
+####### Create new variable
+df$opcl <- ifelse( is.na(closed.mdm) & is.na(closed.sls) ,
+                   'open','closed')
+####### Filter on new variable
+subset(df, opcl == 'open')
+
+####### If you want to operate directly on one of the 'closed' column, perhaps
+####### these examples will help
+####### Does not work due to the NAs
+df[ df$closed.sls == '08',]
+####### Works
+subset(df, closed.sls=='08')
+####### Works also
+df[!is.na(df$closed.sls) & df$closed.sls == '08' , ]
+
+###### Select cases if the variables have missing values
+###### http://r.789695.n4.nabble.com/Subscripting-problem-with-is-na-tp4722082p4722112.html
+cust.id <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+             13, 14, 15, 16, 17, 18, 19, 20)
+
+closed.mdm <- c("01", NA, NA, NA, "08", "07", NA, NA, "05",
+                NA, NA, NA, "04", NA, NA, NA, NA, NA, NA, NA)
+
+closed.sls <- c(NA, "08", NA, NA, "08", "07", NA, NA, NA, NA,
+                "03", NA, NA, NA, "05", NA, NA, NA, NA, NA)
+
+ds_temp <- data.frame(cust.id, closed.mdm, closed.sls,
+                 stringsAsFactors=FALSE)
+
+rowSums(is.na(ds_temp[,2:3]))
+###### [1] 1 1 2 2 0 0 2 2 1 2 1 2 1 2 1 2 2 2 2 2
+
+###### Gives you vector of numbers which is equal 2 only if they are both NA. So
+ds_temp$open <- rowSums(is.na(ds_temp[,2:3]))==2
+###### gives you column which is TRUE if the account is open and FALSE
+###### in other situation.
+###### You can use similar approach for testing the state of account closing.
 
 #### Keep only cases without any missings
 dataset2 <- dataset1[complete.cases(dataset1), ]
