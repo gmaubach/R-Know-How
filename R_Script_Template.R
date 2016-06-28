@@ -550,9 +550,7 @@ variable[variable %in% c(-998,-999)] = NA # Recode any -998 or -999 as NA
 variable[variable %in% -990:-999] = 0     # Recode any value between -990 and
 # -999 as 0
 
-##### Select cases if variables have missing values
-##### Credits:
-##### - https://www.mail-archive.com/r-help@r-project.org/msg236476.html
+##### Select cases if variables have missing values (*20)
 cust.id <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
              13, 14, 15, 16, 17, 18, 19, 20)
 
@@ -580,7 +578,7 @@ subset(df, closed.sls=='08')
 df[!is.na(df$closed.sls) & df$closed.sls == '08' , ]
 
 ###### Select cases if the variables have missing values
-###### http://r.789695.n4.nabble.com/Subscripting-problem-with-is-na-tp4722082p4722112.html
+###### 
 cust.id <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
              13, 14, 15, 16, 17, 18, 19, 20)
 
@@ -618,8 +616,7 @@ dataset2 <- na.omit(dataset1)
 
 # Attention:
 # If a factor is recoded values in the data which are not defined as levels
-# will be transformed to NA.
-# see http://r.789695.n4.nabble.com/Interdependencies-of-variable-types-logical-expressions-and-NA-td4720183.html
+# will be transformed to NA. (*21)
 
 ## 5. Identify and correct errors
 ### Outliers
@@ -653,7 +650,7 @@ boxplot(dataset$variable)
 ## This works only for data transformations and is not applicable for
 ## statistical function like head(), sum(), mean(), etc.
 ## See an alternative for statistical functions in Section "Prepare" below.
-## Source: http://r.789695.n4.nabble.com/selecting-columns-from-a-data-frame-or-data-table-by-type-ie-numeric-integer-td4720240.html
+## See (*22).
 for (i in 1:ncol(dataset)) {
   if (inherits(x = dataset[, i], "character|numeric|factor|or whatsoever") {
     dataset[, i] <- as.factor(dataset[, i])
@@ -947,6 +944,18 @@ detach("package:dplr")
 # Extract data for communication with R-Help mailing list (*11)
 dput(dataset[firstRow:lastRow, firstVariable:lastVariable])
 
+# Analyse a factor vector with empty levels
+var1 <- c(1, 1, 2, 2)
+var1 <- factor(var1,
+               levels = c(1, 2, 3, 4),
+               labels = c("Used Level 1", "Used Level 2",
+                          "Empty Level 3", "Empty Level 4"))
+summary(var1[ , drop = TRUE])
+
+ds_example <- data.frame(var1)
+summary(ds_example[["var1"]], drop = TRUE)  # Attention: [[]] is used!
+
+
 # References
 # (*1)  Muenchen: R for SAS and SPSS Users, 2. Ed., New York, 2011
 # (*2)  Hain: Statistik mit R, 1. Ed., Hannover, 2011
@@ -981,5 +990,11 @@ dput(dataset[firstRow:lastRow, firstVariable:lastVariable])
 # (*18) Muenchen: R for SAS and SPSS Users, 2. Ed., New York, 2011, p. 311
 # (*19) Cookbook R: Reordering the columns in a data frame
 #       http://www.cookbook-r.com/Manipulating_data/Reordering_the_columns_in_a_data_frame/
+# (*20) http://r.789695.n4.nabble.com/Subscripting-problem-with-is-na-tp4722082p4722112.html
+#       https://www.mail-archive.com/r-help@r-project.org/msg236476.html
+# (*21) http://r.789695.n4.nabble.com/Interdependencies-of-variable-types-logical-expressions-and-NA-td4720183.html
+# (*22) http://r.789695.n4.nabble.com/selecting-columns-from-a-data-frame-or-data-table-by-type-ie-numeric-integer-td4720240.html
+
+
 
 # EOF
