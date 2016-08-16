@@ -2,7 +2,7 @@
 # Program       : Framework for R scripts
 # Author        : Georg Maubach
 # Date          : 2016-03-03
-# Update        : 2016-06-27
+# Update        : 2016-08-16
 # Description   : Foundation for the analysis process
 # Source System : R 3.2.5 (64 Bit)
 # Target System : R 3.2.5 (64 Bit)
@@ -380,8 +380,9 @@ detach("packages:jsonlite")
 
 # Build datasets from data
 ## Rename variables
-names(dataset) <- new_colnames
-names(dataset)[names(kino == "variable name")] <- "new variable name"
+names(dataset) <- c("new_colname1", "new_colname2", ...)
+# (* 24)
+names(dataset)[names(kino) == "variable name"] <- "new variable name"
 
 ## Sort variables
 dataset2 <- dataset[sort(names(dataset))]
@@ -683,6 +684,15 @@ save(dataset, file = path)
 path <- file.path("Path", "to", "file", "Projectname_Cleaning.RData")
 load(file = path)
 
+# Restructuring
+library(tidyr)
+dataset <- tidyr::spread()
+dataset <- tidyr::gather()
+
+library(reshape2)
+dataset <- reshape2::melt()
+dataset <- reshape2::dcast()
+
 # Delete variables
 reduced_dataset <- dataset$variable <- NULL # delete a variable
 reduced_dataset <- dataset[, -c(index_of_variables)] # delete variables
@@ -955,6 +965,8 @@ summary(var1[ , drop = TRUE])
 ds_example <- data.frame(var1)
 summary(ds_example[["var1"]], drop = TRUE)  # Attention: [[]] is used!
 
+# Detach library and unload it (*23)
+detach("package:dplyr", unload = TRUE)
 
 # References
 # (*1)  Muenchen: R for SAS and SPSS Users, 2. Ed., New York, 2011
@@ -994,7 +1006,6 @@ summary(ds_example[["var1"]], drop = TRUE)  # Attention: [[]] is used!
 #       https://www.mail-archive.com/r-help@r-project.org/msg236476.html
 # (*21) http://r.789695.n4.nabble.com/Interdependencies-of-variable-types-logical-expressions-and-NA-td4720183.html
 # (*22) http://r.789695.n4.nabble.com/selecting-columns-from-a-data-frame-or-data-table-by-type-ie-numeric-integer-td4720240.html
-
-
-
+# (*23) http://stackoverflow.com/questions/6979917/how-to-unload-a-package-without-restarting-r
+# (*24) Hain: Statistik mit R, 1. Ed., Hannover, 2011, p. 83
 # EOF
