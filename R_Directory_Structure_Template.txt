@@ -1,0 +1,16 @@
+Project Name
+- development
+- documentation
+- export
+- fundamentals
+- input
+- jobs
+- metadata
+- modules
+- output
+    - data
+    - graphics
+    - presentations 
+    - tables
+- raw
+- temp
